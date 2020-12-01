@@ -71,6 +71,9 @@ This function will list company note types based on conditions.
 ### [Get-CWMCompanyStatus](Docs/Get-CWMCompanyStatus.md)
 This function will list all CW company statuses.
 
+### [Get-CWMCompanySite](Docs/Get-CWMCompanySite.md)
+This function will list sites of a company based on conditions.
+
 ### [Get-CWMCompanyTeam](Docs/Get-CWMCompanyTeam.md)
 This function will list of teams of a company based on conditions.
 
