@@ -73,7 +73,6 @@ This function will list all CW company statuses.
 
 ### [Get-CWMCompanySite](Docs/Get-CWMCompanySite.md)
 This function will list sites of a company based on conditions.
-
 ### [Get-CWMCompanyTeam](Docs/Get-CWMCompanyTeam.md)
 This function will list of teams of a company based on conditions.
 
@@ -130,6 +129,9 @@ This function will list product types.
 
 ### [Get-CWMProject](Docs/Get-CWMProject.md)
 This will return a list of projects.
+
+### [Get-CWMProjectBoard](Docs/Get-CWMProjectBoard.md)
+This will update an project phase.
 
 ### [Get-CWMProjectPhase](Docs/Get-CWMProjectPhase.md)
 This function will list all phases for a project.
@@ -236,6 +238,12 @@ This function will create a new time entry.
 ### [Remove-CWMAgreementSite](Docs/Remove-CWMAgreementSite.md)
 This function will remove a site from a Manage agreement.
 
+### [Get-CWMCurrencyCode](Docs/Get-CWMCurrencyCode.md)
+This function will list the Currency Codes.
+
+### [Get-CWMTaxCode](Docs/Get-CWMTaxCode.md)
+This function will list the Tax Codes.
+
 ### [Remove-CWMCallbackEntry](Docs/Remove-CWMCallbackEntry.md)
 This function will remove a Callback entry from Manage.
 
@@ -283,9 +291,6 @@ This will modify a contact by its ID.
 
 ### [Update-CWMProductCatalog](Docs/Update-CWMProductCatalog.md)
 This will update a catalog item.
-
-### [Update-CWMProjectPhase](Docs/Update-CWMProjectPhase.md)
-This will update an project phase.
 
 ### [Update-CWMProjectTicket](Docs/Update-CWMProjectTicket.md)
 This will update a Manage project ticket.

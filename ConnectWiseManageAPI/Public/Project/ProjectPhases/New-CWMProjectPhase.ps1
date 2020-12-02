@@ -24,7 +24,7 @@ function New-CWMProjectPhase {
         [string] $notes,
         [string] $deadlineDate,
         [bool] $billSeparatelyFlag,
-        [ValidateSet('Billable','DoNotBill','NoCharge','NoDefault')]
+        [ValidateSet('ActualRates','FixedFee','NotToExceed','OverrideRate')]
         [string] $billingMethod, #reuired if $billSeparatelyFlag is $true
         [decimal] $scheduledHours,
         [string] $scheduledEnd,

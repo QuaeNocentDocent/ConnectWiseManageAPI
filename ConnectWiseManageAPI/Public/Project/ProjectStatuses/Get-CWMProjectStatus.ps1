@@ -1,4 +1,4 @@
-﻿function Get-CWMProjectBoard {
+﻿function Get-CWMProjectStatus {
     [CmdletBinding()]
     param(
         [string]$Condition,
@@ -11,7 +11,7 @@
         [string[]]$fields,
         [switch]$all
     )
-#project and service boardsa are serviced by the same URI
-    $URI = "https://$($script:CWMServerConnection.Server)/v4_6_release/apis/3.0/service/boards"
+
+    $URI = "https://$($script:CWMServerConnection.Server)/v4_6_release/apis/3.0/project/statuses"
     return Invoke-CWMGetMaster -Arguments $PsBoundParameters -URI $URI
 }
