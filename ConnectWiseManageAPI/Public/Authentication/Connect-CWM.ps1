@@ -109,7 +109,7 @@
             Method = 'Post'
             Uri = "https://$($Server)/v4_6_release/apis/3.0/system/members/$($MemberID)/tokens"
             Body = @{ memberIdentifier = $MemberID }
-            ContentType = 'application/json'
+            ContentType = 'application/json; charset=utf-8'
             Headers = $Headers
         }
         $Result = Invoke-CWMWebRequest -Arguments $WebRequestArguments

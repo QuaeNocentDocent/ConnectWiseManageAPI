@@ -145,6 +145,9 @@ This function will list team members of a project.
 ### [Get-CWMProjectTicket](Docs/Get-CWMProjectTicket.md)
 This will return a list of project tickets.
 
+### [Get-CWMProjectTicket](Docs/New-CWMProjectTicket.md)
+This will create a project ticket.
+
 ### [Get-CWMReport](Docs/Get-CWMReport.md)
 This function will allow you to search for Manage configurations.
 

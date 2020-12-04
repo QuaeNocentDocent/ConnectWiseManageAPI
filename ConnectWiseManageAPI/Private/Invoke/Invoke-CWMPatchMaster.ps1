@@ -19,7 +19,7 @@
     $WebRequestArguments = @{
         Uri = $URI
         Method = 'Patch'
-        ContentType = 'application/json'
+        ContentType = 'application/json; charset=utf-8'
         Body = $Body
     }
     if ($PSCmdlet.ShouldProcess($WebRequestArguments.URI, "Invoke-CWMNewMaster, with body:`r`n$Body`r`n")) {

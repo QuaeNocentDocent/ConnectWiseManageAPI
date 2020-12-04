@@ -1,13 +1,13 @@
-﻿function Invoke-CWMNewMaster {
+﻿function New-CWMGenericEntity {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         $Arguments,
-        [string]$URI,
+        [string]$endpoint,
         [string[]]$Skip
     )
     # Skip common parameters
     $Skip += 'Debug','ErrorAction','ErrorVariable','InformationAction','InformationVariable','OutVariable','OutBuffer','PipelineVariable','Verbose','WarningAction','WarningVariable','WhatIf','Confirm','Version','VersionAutomatic'
-
+    $URI = "https://$($script:CWMServerConnection.Server)/v4_6_release/apis/3.0/$endpoint"
     if ($Arguments.Body) {
         $Body = $Arguments.Body
     } else {
@@ -33,7 +33,7 @@
         Body = $Body
         Version = $Arguments.Version
     }
-    if ($PSCmdlet.ShouldProcess($WebRequestArguments.URI, "Invoke-CWMNewMaster, with body:`r`n$Body`r`n")) {
+    if ($PSCmdlet.ShouldProcess($WebRequestArguments.URI, "New-CWMGenericEntity, with body:`r`n$Body`r`n")) {
         $Result = Invoke-CWMWebRequest -Arguments $WebRequestArguments
         if($Result.content){
             $Result = $Result.content | ConvertFrom-Json
