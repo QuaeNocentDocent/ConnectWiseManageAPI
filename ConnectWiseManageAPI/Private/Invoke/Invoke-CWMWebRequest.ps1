@@ -37,11 +37,14 @@
 
     Write-Debug "Arguments: $($Arguments | ConvertTo-Json)"
     $httpCodes2Retry=@(408,409,421,423,425,429)
+    #https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socketerror?view=net-5.0
+    $socketCodes2Retry=@(10061,10053,10054,10064,10004,10050,10052,10091,10060,11002)
     # Issue request
     $retry=0    
     do {
         try {
             $requestError=$false
+            $socketErrorCode = 0             
             $Result = Invoke-WebRequest @Arguments -UseBasicParsing
         }
         catch {
@@ -84,12 +87,14 @@
                     $ErrorMessage += "-----> $($ErrDetails.errors.message)"
                 }
             }
-
+            if($_.Exception.InnerException.Source -ieq 'System.Net.Sockets') {
+                $socketErrorCode = $_.Exception.InnerException.ErrorCode
+            }
             if ([String]::IsNullOrEmpty($ErrorMessage)){ $ErrorMessage = $_ }
             else { $ErrorMessage += "`n"; $ErrorMessage += $_.ScriptStackTrace }
         }
         #let's check if we must report an error or a warning. If $result is $null $mustRetry is always false        
-        $mustRetry = ($Result.StatusCode -ge 500 -or $Result.StatusCode -in $httpCodes2Retry)
+        $mustRetry = ($Result.StatusCode -ge 500 -or $Result.StatusCode -in $httpCodes2Retry -or $socketErrorCode -in $socketCodes2Retry)
         if($requestError -and $mustRetry) {Write-Warning $ErrorMessage}       
         if($mustRetry) {
             $Retry++
