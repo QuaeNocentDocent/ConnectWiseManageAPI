@@ -35,7 +35,7 @@
         $Arguments.URI = $Arguments.URI -replace '(.*?)&(.*)', '$1?$2'
     }
 
-    Write-Debug "Arguments: $($Arguments | ConvertTo-Json)"
+    Write-Debug "Arguments: $($Arguments | ConvertTo-Json)" -debug
     $httpCodes2Retry=@(408,409,421,423,425,429)
     #https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socketerror?view=net-5.0
     $socketCodes2Retry=@(10061,10053,10054,10064,10004,10050,10052,10091,10060,11002)
@@ -48,6 +48,7 @@
             $Result = Invoke-WebRequest @Arguments -UseBasicParsing
         }
         catch {
+            write-debug ("MUSTRETRY: " + ($_ | ConvertTo-Json))
             $requestError=$true
             $ErrorMessage=''
             if($_.Exception.Response){
@@ -79,19 +80,21 @@
             }
 
             if ($_.ErrorDetails) {
-                $ErrorMessage += "`nAn error has been thrown."
+                $ErrorMessage += "`r`nAn error has been thrown."
                 $ErrDetails = $_.ErrorDetails
-                $ErrorMessage += "`n--> $($ErrDetails.code)"
-                $ErrorMessage += "`n--> $($ErrDetails.message)"
+                $ErrorMessage += "`r`n--> $($ErrDetails.code)"
+                $ErrorMessage += "`r`n--> $($ErrDetails.message)"
                 if($ErrDetails.errors.message){
                     $ErrorMessage += "-----> $($ErrDetails.errors.message)"
                 }
             }
-            if($_.Exception.InnerException.Source -ieq 'System.Net.Sockets') {
-                $socketErrorCode = $_.Exception.InnerException.ErrorCode
+            
+            if($_.Exception.InnerException.SocketErrorCode -ne 0) {
+                $socketErrorCode = $_.Exception.InnerException.SocketErrorCode
+                $ErrorMessage += "`nSOCKET ERROR:$socketErrorCode"
             }
             if ([String]::IsNullOrEmpty($ErrorMessage)){ $ErrorMessage = $_ }
-            else { $ErrorMessage += "`n"; $ErrorMessage += $_.ScriptStackTrace }
+            else { $ErrorMessage += "`n" }
         }
         #let's check if we must report an error or a warning. If $result is $null $mustRetry is always false        
         $mustRetry = ($Result.StatusCode -ge 500 -or $Result.StatusCode -in $httpCodes2Retry -or $socketErrorCode -in $socketCodes2Retry)
@@ -107,7 +110,7 @@
     } while ($Retry -lt $MaxRetry -and $mustRetry)
 
     if ($mustRetry -or $requestError) {
-        $ErrorMessage = ($Arguments | Out-String) + "`n" + $ErrorMessage
+        $ErrorMessage = 'Invoke-CWMWebrequest: ' + $Arguments.URI + "`r`n" + $arguments.body + "`r`n" + $ErrorMessage
         write-error $ErrorMessage
         throw $ErrorMessage
     }
