@@ -12,7 +12,7 @@
         foreach($op in $operations) {
             $check = compare-object -ReferenceObject $reference -DifferenceObject ([array]$op.keys)
             if($check) {
-                throw 'Operations parameter error. It must be an array of hashtables with the following keys op, path and value'
+                throw 'Operations parameter error. It must be an array of hashtables with the following keys op, path and value. Op can be add | replace | remove'
             }        
         }
     }
@@ -28,7 +28,7 @@
         ContentType = 'application/json; charset=utf-8'
         Body = $Body
     }
-    Write-Verbose ('Update-CWMGenericEntity: {0}' -f ($WebRequestArguments | convertto-json)) -Verbose 
+    Write-Verbose ('Update-CWMGenericEntity: {0}' -f ($WebRequestArguments | convertto-json)) #-Verbose 
     if ($PSCmdlet.ShouldProcess($WebRequestArguments.URI, "Update-CWMGenericEntity, with body:`r`n$Body`r`n")) {
         $Result = Invoke-CWMWebRequest -Arguments $WebRequestArguments
         if($Result.content){

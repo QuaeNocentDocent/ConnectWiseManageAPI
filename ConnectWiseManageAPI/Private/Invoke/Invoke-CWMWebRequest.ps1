@@ -35,7 +35,7 @@
         $Arguments.URI = $Arguments.URI -replace '(.*?)&(.*)', '$1?$2'
     }
 
-    Write-Debug "Arguments: $($Arguments | ConvertTo-Json)" -debug
+    Write-Verbose "Arguments: $($Arguments | ConvertTo-Json)" #-verbose
     $httpCodes2Retry=@(408,409,421,423,425,429)
     #https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socketerror?view=net-5.0
     $socketCodes2Retry=@(10061,10053,10054,10064,10004,10050,10052,10091,10060,11002)
