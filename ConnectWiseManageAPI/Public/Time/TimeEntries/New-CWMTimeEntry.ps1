@@ -33,6 +33,7 @@
         [boolean]$emailCcFlag,
         [string]$emailCc,
         [double]$hoursBilled,
+        [double]$invoiceHours,
         [string]$enteredBy,
         [string]$dateEntered,
         [hashtable]$invoice,
